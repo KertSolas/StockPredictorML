@@ -8,7 +8,8 @@ from sklearn.metrics import mean_squared_error
 import plotly.express as px
 
 def getStockData(ticker, start_date, end_date):
-    stock_data = yf.download(ticker, start=start_date, end=end_date)
+    stock_data = yf.download(ticker, start_date, end_date)
+    stock_data.reset_index(inplace=True)
     return stock_data
 
 def predictStockPrices(data):
@@ -26,11 +27,11 @@ def predictStockPrices(data):
     data.loc[X_train.index, 'Predicted_Close_Train'] = model.predict(X_train)
     data.loc[X_test.index, 'Predicted_Close_Test'] = model.predict(X_test)
 
-    # mse_train = mean_squared_error(y_train, data.loc[X_train.index, 'Predicted_Close_Train'])
-    # mse_test = mean_squared_error(y_test, data.loc[X_test.index, 'Predicted_Close_Test'])
+    mse_train = mean_squared_error(y_train, data.loc[X_train.index, 'Predicted_Close_Train'])
+    mse_test = mean_squared_error(y_test, data.loc[X_test.index, 'Predicted_Close_Test'])
 
-    # st.write(f"Mean Squared Error (Train): {mse_train:.2f}")
-    # st.write(f"Mean Squared Error (Test): {mse_test:.2f}")
+    st.write(f"Mean Squared Error (Train): {mse_train:.2f}")
+    st.write(f"Mean Squared Error (Test): {mse_test:.2f}")
 
     return data
 

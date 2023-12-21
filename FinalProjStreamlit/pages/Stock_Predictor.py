@@ -8,9 +8,6 @@ from plotly import graph_objs as go
 
 st.title("Stock Trend Predictor")
 today = date.today()
-# startYear = today.year
-# startYear = 0
-# endYear = startYear + 5
 year = st.slider("Select a year", 0, 5)
 period = year * 365
 
