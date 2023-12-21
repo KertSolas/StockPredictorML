@@ -10,8 +10,6 @@ from plotly import graph_objs as go
 # DONT FORGOR UPDATE DATE SELECTION
 # 
 
-stocks = ("AAPL", "GOOG", "MSFT", "GME", "AMC")
-selectionBox = st.selectbox("Select a stock", stocks)
 today = date.today()
 startYear = today.year
 startYear = 0
@@ -25,6 +23,11 @@ def getStockData(symbol, start_date, end_date):
     data = pd.DataFrame(yf.download(symbol, start=start_date, end=end_date))
     data.reset_index(inplace=True)
     return data
+
+def selectBox():
+    stocks = ("AAPL", "GOOG", "MSFT", "GME", "AMC")
+    selectionBox = st.selectbox("Select a stock", stocks)
+    return selectionBox
 
 def trainModel(data):
     df_train = data[["Date", "Close"]]
@@ -47,6 +50,7 @@ def displayData():
 
 
 def main():
+    selectionBox = selectBox()
     data = getStockData(selectionBox, "2015-01-01", today)
     st.write(data.tail())
     displayData() #raw data
