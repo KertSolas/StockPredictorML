@@ -7,12 +7,12 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
+st.title("Stock Trend Predictor")
 today = date.today()
-startYear = today.year
-startYear = 0
-endYear = startYear + 5
-
-year = st.slider("Select a year", startYear, endYear)
+# startYear = today.year
+# startYear = 0
+# endYear = startYear + 5
+year = st.slider("Select a year", 0, 5)
 period = year * 365
 
 @st.cache_data
@@ -22,7 +22,8 @@ def getStockData(symbol, start_date, end_date):
     return data
 
 def selectBox():
-    stocks = ("AAPL", "GOOG", "MSFT", "GME", "AMC")
+    tickers = pd.read_csv("nasdaq-listed.csv")
+    stocks = tickers["Symbol"].tolist()
     selectionBox = st.selectbox("Select a stock", stocks)
     return selectionBox
 
@@ -50,16 +51,20 @@ def displayData(data):
 
 
 def main():
+
     selectionBox = selectBox()
     data = getStockData(selectionBox, "2015-01-01", today)
+
     st.subheader(selectionBox + " Data")
     st.write(data.tail())
     st.title(f"{selectionBox}")
-    displayData(data) #raw data
 
+    displayData(data) #raw data
     train = trainModel(data)
+    
     st.subheader("Forecast Data")
     forecastData = forecast(train)
+    forecastData
 
 main()
 
