@@ -7,9 +7,6 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
-# DONT FORGOR UPDATE DATE SELECTION
-# 
-
 today = date.today()
 startYear = today.year
 startYear = 0
@@ -47,6 +44,7 @@ def displayData(data):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_open"))
     fig.layout.update(xaxis_rangeslider_visible=True)   
+ 
     st.plotly_chart(fig) 
 
 
@@ -56,6 +54,7 @@ def main():
     data = getStockData(selectionBox, "2015-01-01", today)
     st.subheader(selectionBox + " Data")
     st.write(data.tail())
+    st.title(f"{selectionBox}")
     displayData(data) #raw data
 
     train = trainModel(data)
