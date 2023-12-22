@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report
+import plotly.express as px
 
 def get_stock_data(ticker, start_date, end_date):
     stock_data = yf.download(ticker, start=start_date, end=end_date)
@@ -15,8 +16,8 @@ def get_stock_data(ticker, start_date, end_date):
 
 data = get_stock_data('AAPL', '2020-01-01', '2022-12-31')
 
-X = data.drop('target_column', axis=1) 
-y = data['target_column']
+X = data.drop('Open', axis=1) 
+y = data['Volume']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
